@@ -1,5 +1,5 @@
 import requests
-from bs4 import BeautifulSoup
+import bs4
 
 def get_fii_data(fii_code):
     url = f'https://www.fundsexplorer.com.br/funds/{fii_code}'
@@ -8,7 +8,7 @@ def get_fii_data(fii_code):
     if response.status_code != 200:
         return None, f"Erro ao acessar o site: {response.status_code}"
     
-    soup = BeautifulSoup(response.content, 'html.parser')
+    soup = bs4.BeautifulSoup(response.content, 'html.parser')
 
     try:
         # Buscar os dados utilizando seletores CSS mais precisos
