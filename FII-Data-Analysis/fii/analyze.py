@@ -5,6 +5,26 @@ Funções:
 - analyze_fii(data): Analisa os dados do FII e retorna uma análise detalhada com o nível de risco.
 """
 
+def convert_to_float(value_str):
+    """
+    Converte uma string com sufixos de grandeza (K, M, B) em um float.
+    Exemplo: "4,6 M" -> 4600000.0
+    """
+    try:
+        value_str = value_str.strip().replace('.', '').replace(',', '.')
+        
+        if value_str.endswith('K'):
+            return float(value_str[:-1]) * 1_000
+        elif value_str.endswith('M'):
+            return float(value_str[:-1]) * 1_000_000
+        elif value_str.endswith('B'):
+            return float(value_str[:-1]) * 1_000_000_000
+        else:
+            return float(value_str)
+    except ValueError:
+        return None
+
+
 def analyze_fii(data):
     analysis = {}
 
@@ -43,10 +63,11 @@ def analyze_fii(data):
             return 'Ruim'
 
     # Liquidez Média Diária
-    try:
-        liquidez_media_diaria = float(data.get("Liquidez Média Diária", "").replace('.', '').replace(',', '.').replace('K', '000').replace('M', '000000').replace('B', '000000000').strip())
+    liquidez_media_diaria_str = data.get("Liquidez Média Diária", "")
+    liquidez_media_diaria = convert_to_float(liquidez_media_diaria_str)
+    if liquidez_media_diaria is not None:
         analysis['Liquidez Média Diária'] = check_liquidity(liquidez_media_diaria)
-    except ValueError:
+    else:
         analysis['Liquidez Média Diária'] = 'Desconhecido'
 
     # Dividend Yield
