@@ -1,0 +1,104 @@
+# Logs
+logs/
+*.log
+*.log.*
+
+# Arquivos de ambiente do Python
+*.env
+*.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+Pipfile.lock
+
+# Diretórios de ambientes virtuais do Python
+.venv/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Caches do Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Logs do Jupyter Notebook
+.ipynb_checkpoints/
+
+# Cobertura de testes
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Diretórios de desenvolvimento do PyCharm
+.idea/
+
+# Diretórios de desenvolvimento do VS Code
+.vscode/
+*.code-workspace
+
+# Compilação de saída
+build/
+dist/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Arquivos de distribuição
+*.deb
+*.rpm
+*.tar.gz
+*.zip
+*.egg
+*.whl
+
+# Instalação PyInstaller
+# Observação: Isso inclui apenas arquivos/executáveis do Windows feitos pelo PyInstaller
+# Existe uma receita melhor para ignorar os resultados do PyInstaller:
+#     https://github.com/github/gitignore/pull/345
+*.manifest
+*.spec
+
+# Arquivos de pacotes
+*.gem
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Arquivos do Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Configuração de backup e dump do Sphinx
+**/docs/_build/
+**/docs/_build/doctrees/
+**/docs/_build/html/
+**/docs/_build/latex/
+**/docs/_build/man/
+**/docs/_build/singlehtml/
+**/docs/_build/txt/
+
+# Arquivos de banco de dados
+*.sqlite3
+
+# Arquivos temporários
+*.tmp
+*.temp
+*.cache
+
+# Arquivos de configuração específicos do projeto
+.env
+.env.*
