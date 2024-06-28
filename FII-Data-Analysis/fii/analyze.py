@@ -80,7 +80,7 @@ def analyze_fii(data):
     # Patrimônio Líquido
     try:
         patrimonio_liquido = float(data.get("Patrimônio Líquido", "").replace('.', '').replace(',', '.').replace('K', '000').replace('M', '000000').replace('B', '000000000').strip())
-        if patrimonio_liquido >= 3000000000: 
+        if patrimonio_liquido >= 30000000000:
             analysis['Patrimônio Líquido'] = 'Bom'
         else:
             analysis['Patrimônio Líquido'] = 'Razoável'
