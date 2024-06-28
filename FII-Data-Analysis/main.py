@@ -5,11 +5,14 @@ Funções:
 - main(): Função principal que controla o fluxo do programa.
 """
 
-from fii.fetch import get_fii_data
-from fii.analyze import analyze_fii
-from utils.helpers import print_key_value_pairs
-from utils.helpers import print_banner
+from controller.fii_data_controller import FIIDataController
+from controller.fii_analysis_controller import FIIAnalysisController
+from utils.helpers import print_key_value_pairs, print_banner
+
 def main():
+    data_controller = FIIDataController()
+    analysis_controller = FIIAnalysisController()
+    
     while True:
         fii_code = input("Digite o código do FII (ou 'Finalizar' para sair): ").strip().lower()
         
@@ -17,7 +20,7 @@ def main():
             print("Encerrando o programa...")
             break
         
-        data, error = get_fii_data(fii_code)
+        data, error = data_controller.get_fii_data(fii_code)
         
         if error:
             print(error)
@@ -26,7 +29,7 @@ def main():
         print_banner(f"Dados do FII {fii_code.upper()}:")
         print_key_value_pairs(data)
         
-        analysis = analyze_fii(data)
+        analysis = analysis_controller.analyze_fii(data)
         print_banner("Análise do FII:")
         print_key_value_pairs(analysis)
 
