@@ -8,3 +8,9 @@ Funções:
 def print_key_value_pairs(data):
     for key, value in data.items():
         print(f"{key}: {value}")
+
+
+def bunitu(msg):
+    print('-'*30)
+    print('   ', msg)
+    print('-'*30)
