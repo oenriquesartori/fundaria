@@ -10,7 +10,7 @@ def print_key_value_pairs(data):
         print(f"{key}: {value}")
 
 
-def bunitu(msg):
-    print('-'*30)
-    print('   ', msg)
-    print('-'*30)
+def print_banner(msg: str, border: str = '-' * 30):
+    print(border)
+    print(f'    {msg}')
+    print(border)
