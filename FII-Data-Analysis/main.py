@@ -8,8 +8,10 @@ Funções:
 from controller.fii_data_controller import FIIDataController
 from controller.fii_analysis_controller import FIIAnalysisController
 from utils.helpers import print_key_value_pairs, print_banner
+from colorama import init
 
 def main():
+    init(autoreset=True) 
     data_controller = FIIDataController()
     analysis_controller = FIIAnalysisController()
     
