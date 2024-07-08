@@ -2,6 +2,7 @@
 Repositório para gerenciar a busca de dados de FIIs do site Funds Explorer.
 """
 
+from colorama import Fore, Style
 import requests
 import bs4
 
@@ -12,7 +13,7 @@ class FIIDataRepository:
         response = requests.get(url)
         
         if response.status_code != 200:
-            return None, f"Erro ao acessar o site: {response.status_code}"
+            return None, f"{Fore.YELLOW}Erro ao acessar o site: {response.status_code}{Style.RESET_ALL}"
         
         soup = bs4.BeautifulSoup(response.content, 'html.parser')
 
@@ -26,8 +27,8 @@ class FIIDataRepository:
                 data[title] = value_element.get_text(strip=True)
 
             if not data:
-                return None, "Erro ao encontrar os dados na página."
+                return None, f"{Fore.BLUE}Erro ao encontrar os dados na página.{Style.RESET_ALL}"
         except AttributeError:
-            return None, "Erro ao encontrar os dados na página. Verifique a estrutura HTML."
+            return None, f"{Fore.RED}Erro ao encontrar os dados na página. Verifique a estrutura HTML.{Style.RESET_ALL}"
 
         return data, None
