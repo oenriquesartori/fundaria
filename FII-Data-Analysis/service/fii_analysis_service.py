@@ -31,25 +31,20 @@ class FIIAnalysisService:
 
         # Valor Patrimonial (P/VP)
         try:
-            pvp = float(data.get("P/VP", "").replace(',', '.'))
-            if pvp < 1:
-                analysis['P/VP'] = 'Bom'
-            elif 1 <= pvp <= 1.5:
-                analysis['P/VP'] = 'Razoável'
-            else:
-                analysis['P/VP'] = 'Ruim'
+            pvp = data.get("P/VP", "")
+            analysis['P/VP'] = self._check_pvp(pvp)
         except ValueError:
             analysis['P/VP'] = 'Desconhecido'
 
         # Análise do Risco com base nos critérios combinados
-        if (analysis.get('Liquidez Média Diária', '') == 'Bom' and
-            analysis.get('Dividend Yield', '') == 'Bom' and
-            analysis.get('Patrimônio Líquido', '') == 'Bom' and
-            analysis.get('P/VP', '') == 'Bom'):
+        criterios = ['Liquidez Média Diária', 'Dividend Yield', 'Patrimônio Líquido', 'P/VP']
+        avaliacao = {'Bom': 2, 'Razoável': 1, 'Ruim': 0}
+
+        pontuacao_total = sum(avaliacao.get(analysis.get(criterio, ''), 0) for criterio in criterios)
+
+        if pontuacao_total == 8:
             risk = 'Seguro'
-        elif (analysis.get('Liquidez Média Diária', '') in ['Razoável', 'Bom'] and
-              analysis.get('Dividend Yield', '') in ['Razoável', 'Bom'] and
-              analysis.get('P/VP', '') == 'Razoável'):
+        elif 5 <= pontuacao_total < 8:
             risk = 'Neutro'
         else:
             risk = 'Arriscado'
@@ -57,7 +52,8 @@ class FIIAnalysisService:
         analysis['Risco'] = risk
 
         return analysis
-
+    
+    # Métodos para análise
     def _convert_to_float(self, value_str):
         try:
             value_str = value_str.strip().replace('.', '').replace(',', '.')
@@ -91,7 +87,7 @@ class FIIAnalysisService:
     def _check_patrimonio_liquido(self, value):
         if value >= 3000000000:
             return 'Bom'
-        elif 1000000000 <= value <= 3000000000:
+        elif 1000000000 <= value < 3000000000:
             return 'Razoável'
         else:
             return 'Ruim'
@@ -106,9 +102,9 @@ class FIIAnalysisService:
 
     def _check_dividend_yield(self, dy):
         dy_float = float(dy.replace(',', '.').strip('%'))
-        if dy_float >= 8:
+        if dy_float >= 6:
             return 'Bom'
-        elif 5 <= dy_float < 8:
+        elif 4 <= dy_float < 6:
             return 'Razoável'
         else:
             return 'Ruim'
@@ -117,14 +113,7 @@ class FIIAnalysisService:
         pvp_float = float(pvp.replace(',', '.'))
         if pvp_float < 1:
             return 'Bom'
-        elif 1 <= pvp_float <= 1.5:
+        elif 1 <= pvp_float <= 1.2:
             return 'Razoável'
-        else:
-            return 'Ruim'
-
-    def _check_monthly_return(self, return_value):
-        return_float = float(return_value.replace(',', '.').strip('%'))
-        if return_float >= 0:
-            return 'Bom'
         else:
             return 'Ruim'
