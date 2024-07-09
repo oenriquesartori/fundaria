@@ -52,7 +52,7 @@ class FIIAnalysisService:
         analysis['Risco'] = risk
 
         return analysis
-    
+
     # Métodos para análise
     def _convert_to_float(self, value_str):
         try:
@@ -91,7 +91,7 @@ class FIIAnalysisService:
             return 'Razoável'
         else:
             return 'Ruim'
-
+        
     def _check_liquidity(self, value):
         if value > 1000000:
             return 'Bom'

@@ -1,5 +1,6 @@
 """
 Módulo utilitário com funções auxiliares para o projeto.
+<<<<<<< HEAD
 """
 
 from colorama import Fore, Style
