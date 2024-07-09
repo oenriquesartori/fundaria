@@ -22,13 +22,11 @@ class FIIAnalysisService:
             analysis['Dividend Yield'] = 'Desconhecido'
 
         # Patrimônio Líquido
-        try:
-            patrimonio_liquido = float(data.get("Patrimônio Líquido", "").replace('.', '').replace(',', '.').replace('K', '000').replace('M', '000000').replace('B', '000000000').strip())
-            if patrimonio_liquido >= 3000000000:
-                analysis['Patrimônio Líquido'] = 'Bom'
-            else:
-                analysis['Patrimônio Líquido'] = 'Razoável'
-        except ValueError:
+        patrimonio_liquido_str = data.get("Patrimônio Líquido", "")
+        patrimonio_liquido = self.converter(patrimonio_liquido_str)
+        if patrimonio_liquido is not None:
+            analysis['Patrimônio Líquido'] = self._check_patrimonio_liquido(patrimonio_liquido)
+        else:
             analysis['Patrimônio Líquido'] = 'Desconhecido'
 
         # Valor Patrimonial (P/VP)
@@ -74,6 +72,29 @@ class FIIAnalysisService:
                 return float(value_str)
         except ValueError:
             return None
+
+    def converter(self, value_str):
+        try:
+            value_str = value_str.strip().replace('.', '').replace(',', '.').replace('R$', '').strip()
+
+            if value_str.endswith('K'):
+                return float(value_str[:-1]) * 1_000
+            elif value_str.endswith('M'):
+                return float(value_str[:-1]) * 1_000_000
+            elif value_str.endswith('B'):
+                return float(value_str[:-1]) * 1_000_000_000
+            else:
+                return float(value_str)
+        except ValueError:
+            return None
+
+    def _check_patrimonio_liquido(self, value):
+        if value >= 3000000000:
+            return 'Bom'
+        elif 1000000000 <= value <= 3000000000:
+            return 'Razoável'
+        else:
+            return 'Ruim'
 
     def _check_liquidity(self, value):
         if value > 1000000:
