@@ -14,7 +14,6 @@ class FIIDataRepository:
         
         if response.status_code != 200:
             return None, f"{Fore.YELLOW}Erro ao acessar o site: {response.status_code}{Style.RESET_ALL}"
-        
         soup = bs4.BeautifulSoup(response.content, 'html.parser')
 
         try:
